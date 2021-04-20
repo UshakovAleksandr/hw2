@@ -6,7 +6,6 @@ import csv
 with open(os.path.join("in_files", "users.json"), "r") as file:
     person_lst = json.loads(file.read())
 
-
 with open(os.path.join("in_files", "books.csv"), newline='') as f:
     reader = csv.reader(f)
     header = next(reader)
@@ -15,31 +14,36 @@ with open(os.path.join("in_files", "books.csv"), newline='') as f:
         books_lst.append(dict(zip(header, row)))
 
 
-def union():
-    TOTAL_LST = []
+def main():
+    book_result = []
+    for book in books_lst:
+        one_book_dict = {
+            "title": book["Title"],
+            "author": book["Author"],
+            "height": book["Height"],
 
+        }
+        book_result.append(one_book_dict)
+
+    person_result = []
     for person in person_lst:
-        for book in books_lst:
-            one_book_dict = {
-                "title": book["Title"],
-                "author": book["Author"],
-                "height": book["Height"]
-            }
+        one_person_dct = {
+            "name": person["name"],
+            "gender": person["gender"],
+            "address": person["address"],
+            "books": []
+        }
+        person_result.append(one_person_dct)
 
-            one_person_dct = {
-                "name": person["name"],
-                "gender": person["gender"],
-                "address": person["address"],
-                "books": [one_book_dict]
-            }
+    TOTAl_LST = []
+    for i, j in zip(person_result, book_result):
+        i["books"].append(j)
+        TOTAl_LST.append(i)
 
-            TOTAL_LST.append(one_person_dct)
-    return TOTAL_LST
+    with open(os.path.join("out_files", "result.json"), "w", encoding="utf-8") as file:
+        result = json.dumps(TOTAl_LST, indent=4)
+        file.write(result)
 
-result = union()
-#print(len(result))
-#pprint.pprint(result)
 
-with open(os.path.join("out_files", "result.json"), "w", encoding="utf-8") as file:
-    s = json.dumps(result, indent=4)
-    file.write(s)
+if __name__ == '__main__':
+    main()

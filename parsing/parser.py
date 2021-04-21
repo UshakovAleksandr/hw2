@@ -2,6 +2,7 @@ import json
 import os
 import pprint
 import csv
+import datetime
 
 with open(os.path.join("in_files", "users.json"), "r") as file:
     person_lst = json.loads(file.read())
@@ -14,6 +15,17 @@ with open(os.path.join("in_files", "books.csv"), newline='') as f:
         books_lst.append(dict(zip(header, row)))
 
 
+def time_count(func):
+    def wrapper():
+        start = datetime.datetime.now()
+        result = func()
+        print(datetime.datetime.now() - start)
+        return result
+
+    return wrapper
+
+
+@time_count
 def main():
     book_result = []
     for book in books_lst:

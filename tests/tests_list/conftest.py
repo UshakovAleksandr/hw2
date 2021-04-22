@@ -1,7 +1,8 @@
 import pytest
+import os
 
 def file_read():
-    with open("../tests_list/list_test.txt", "r", encoding="utf-8") as file:
+    with open(os.path.join("list_test.txt"), "r", encoding="utf-8") as file:
         text = []
         for line in file.readlines():
             text.append(line.strip())

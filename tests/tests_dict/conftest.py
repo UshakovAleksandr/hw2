@@ -1,9 +1,10 @@
 import pytest
 import json
+import os
 
 
 def file_read():
-    with open("../tests_dict/dict_test.json", "r") as file:
+    with open(os.path.join("dict_test.json"), "r") as file:
         dct = json.loads(file.read())
     return dct
 
